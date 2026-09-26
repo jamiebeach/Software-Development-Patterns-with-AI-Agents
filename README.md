@@ -9,32 +9,37 @@
 For the past fifty years, every practice in software engineering was designed around a single, immutable constraint: **the shape of the human mind.**
 
 Think about the foundational artifacts of modern software development:
+
 * **Two-week Agile sprints and daily standups** exist because humans operate on circadian rhythms and need periodic synchronization to stay aligned.
 * **Jira tickets and Markdown checklists** are written in ambiguous natural language because human engineers bring years of implicit institutional context to fill in the blanks.
-* **Small Pull Requests (< 400 lines)** are mandated because human working memory degrades rapidly during code review.
+* **Small Pull Requests ($< 400$ lines)** are mandated because human working memory degrades rapidly during code review.
 * **Clean Code, DRY, and deep folder hierarchies** optimize for human navigability and cognitive load.
 
-In a remarkably short span of time, we have introduced a fundamentally different kind of actor into the software lifecycle. AI coding agents do not get fatigued at 4:00 PM, can spin up twenty parallel instances in isolated git worktrees in milliseconds, and can synthesize boilerplate across fifty files in seconds. Yet they also suffer from failure modes no human engineer experiences: **sudden context-window amnesia, silent architectural drift, sycophantic test tampering, and compounding hallucination loops.**
+In a remarkably short span of time, we have introduced a fundamentally different kind of actor into the software lifecycle. AI coding agents do not get fatigued at 4:00 PM, can spin up twenty parallel instances in isolated git worktrees in milliseconds, and can synthesize boilerplate across fifty files in seconds. Yet they also suffer from failure modes no human engineer experiences: **sudden context-window amnesia, silent assumption hallucination, waterfall reasoning degradation during file localization, sycophantic test tampering, and compounding regression snowballs.**
 
-Trying to force autonomous agents into *human-shaped* workflows—handing an agent a vague Jira ticket, letting it run in a single endless chat session, or asking a human team to manually review 15,000 lines of AI-generated diffs a day—breaks the system. 
+Trying to force autonomous agents into *human-shaped* workflows—handing an agent a vague Jira ticket, letting it run in a single endless chat session, or asking a human team to manually review $15,000$ lines of AI-generated diffs a day—breaks the system.
 
-We are witnessing a rapid, industry-wide transition toward **agent-shaped development**: new ways of structuring state, specifications, verification gates, and concurrency designed around the strengths and failure modes of machines, steered by human intent.
+We are witnessing a rapid, industry-wide transition toward **agent-shaped development**: new ways of structuring state, specifications, operational policies, verification gates, and concurrency designed around the strengths and failure modes of machines, steered by human intent.
 
 ---
 
-## 2. Why This Repository Exists
+## 2. Why This Repository Exists (And What the Data Shows)
 
 Right now, the software industry is in the middle of a massive, decentralized phase of live experimentation. There is no settled orthodoxy. There is no definitive "Gang of Four" textbook for building software with agents—because the underlying models, context windows, and tool-use capabilities are shifting beneath our feet every few weeks.
 
-Across startups, open-source communities, and enterprise engineering orgs, builders are discovering entirely different paradigms through trial and error:
+At the same time, recent empirical benchmarks (`EvoClaw`, `RACE-bench`, `Co-Coder`, `Ambig-SWE`) have exposed a sobering reality check: **while frontier coding agents score $>80\%$ on isolated, single-issue benchmarks, their success rate drops to $\le 38\%$ when evolving a repository continuously across multiple milestones.** Without explicit architectural scaffolding, unconstrained agents silently guess on ambiguous prompts, thrash tokens on tightly coupled files, and accumulate subtle Pass-to-Pass (P2P) regressions until the codebase grinds to a halt.
+
+Across startups, open-source communities, research labs, and enterprise engineering orgs, builders are converging on repeatable structural patterns to solve these exact failure modes:
+
 * Solo developers are **"vibe coding"** full-stack prototypes in tight visual REPL loops.
-* Systems engineers are building **"Gas Towns"** and **"Beads"**—running swarms of 10 to 30 concurrent agents coordinated by supervisory "Mayors" over git-backed issue DAGs.
-* Principal architects are retreating from chat prompts entirely, practicing strict **Spec-Driven Development (SDD)** where agents are locked in read-only test harnesses until deterministic contracts pass.
+* Systems engineers are building **"Gas Towns"** and **"Beads"**—running swarms of $10$ to $30$ concurrent agents coordinated by supervisory "Mayors" over cohesion-partitioned, git-backed issue DAGs.
+* Principal architects are adopting tiered **Spec-Driven Development (SDD)** (`Spec-First`, `Spec-Anchored`, and `Spec-as-Source`) paired with project `constitution.md` and command-first `AGENTS.md` files.
+* High-assurance teams are wrapping coding agents in **Formal Verification Harnesses** (Lean 4, Coq, Dafny) where proof kernels mathematically reject hallucinated code.
 * Enterprise platforms are ingesting 20-million-line monorepos into **AST Knowledge Graphs** to execute multi-hour asynchronous refactorings before a human ever sees a diff.
 
-**The goal of this repository is to take stock.** 
+**The goal of this repository is to take stock.**
 
-Rather than promoting a single tool or declaring a premature standard, this project aims to capture, categorize, and distill the key architectural insights and repeatable patterns that are actually working in the wild today.
+Rather than promoting a single vendor tool or declaring a premature standard, this project aims to capture, categorize, and distill the key architectural insights, empirical research, and repeatable patterns that are actually working in the wild today.
 
 ---
 
@@ -44,49 +49,52 @@ To understand the patterns in this repository, it helps to contrast the assumpti
 
 | Dimension | Human-Shaped Development | Agent-Shaped Development |
 | :--- | :--- | :--- |
-| **Primary Bottleneck** | Typing speed, implementation time, context switching | Verification rigor, specification clarity, human review bandwidth |
-| **State & Memory** | Implicit institutional knowledge + long-term human memory | Ephemeral session windows + explicit, git-persisted state graphs (`.beads/`, `spec.md`) |
-| **Task Granularity** | Multi-day user stories ("Build the billing settings page") | Atomic, 2-to-5 minute micro-tasks with strict input/output boundaries |
-| **Concurrency Model** | 1 branch per developer; long-lived feature branches | $N$ isolated Git worktrees or containers per developer, merged continuously |
-| **Communication Protocol** | Natural language prose, Slack threads, meetings | Machine-queryable JSON/DAGs, strict type schemas, executable test fixtures |
-| **Quality Assurance** | Peer human code review + post-push CI pipelines | Pre-commit compiler/linter critic loops + dual-agent adversarial verification |
+| **Primary Human Role** | Syntax Author & Manual Reviewer | **Intent Architect, Fleet Coordinator, Outcome Auditor** |
+| **Primary Bottleneck** | Typing speed, implementation time, context switching | Verification rigor, specification clarity, localization accuracy |
+| **State & Memory** | Implicit institutional knowledge + long-term human memory | Ephemeral session windows + git-persisted state graphs (`.beads/`, `spec.md`, `AGENTS.md`) |
+| **Task Granularity** | Multi-day user stories ("Build the billing settings page") | Cohesion-partitioned, 2-to-5 minute micro-tasks with hub isolation |
+| **Concurrency Model** | $1$ branch per developer; long-lived feature branches | $N$ isolated Git worktrees or containers per developer, merged continuously |
+| **Communication Protocol** | Natural language prose, Slack threads, meetings | Command-first policy files, strict type schemas, executable test fixtures |
+| **Quality Assurance** | Peer human code review + post-push CI pipelines | Dual F2P/P2P invariant suites, adversarial critic agents, formal proof kernels |
 | **Failure Recovery** | Debugging in place; incremental hotfixes | **"Land the plane or kill the session"**—discarding tainted context and respawning clean |
 
 ---
 
 ## 4. How to Use This Repository
 
-We have decoupled **Patterns** (timeless or structural workflows, state machines, and mental models) from the **Catalog** (specific tools, CLIs, and commercial platforms implementing them).
+We have decoupled **Patterns** (structural workflows, state machines, and mental models) from the **Catalog** (specific tools, CLIs, and commercial platforms) and grounded both in **Empirical Research**.
 
-1. **Start with the [Taxonomy (`docs/taxonomy.md`)](docs/taxonomy.md):** Understand the five core axes—Autonomy ($L_0 \rightarrow L_4$), Concurrency Topologies ($1:1$, $1:N$, $M:N$), Memory Persistence, Verification Rigor, and Context Grounding.
-2. **Identify Your Operating Context:** Are you a solo builder looking for velocity, a staff engineer orchestrating parallel local agents, or an enterprise lead introducing guardrails across a 100-person org?
-3. **Adopt the Guardrails Before the Autonomy:** A recurring lesson across every pattern here is that **autonomy without a deterministic verification harness is just accelerated technical debt.**
+1. **Start with the [Taxonomy (`docs/taxonomy.md`)](docs/taxonomy.md):** Understand the five core axes—Autonomy ($L_0 \rightarrow L_4$), Concurrency & Graph Topologies ($1:1$, $1:N$, $M:N$), Memory & Policy Persistence, Verification Rigor, and Context Grounding.
+2. **Review the [Research & Benchmarks (`docs/research-and-benchmarks.md`)](docs/research-and-benchmarks.md):** Examine the empirical data on continuous evolution cliffs, waterfall localization drops, and multi-agent coupling math.
+3. **Adopt the Guardrails Before the Autonomy:** A recurring lesson across every study and field report here is that **autonomy without a deterministic verification harness is just accelerated technical debt.**
 
 ---
 
 ## 5. Repository Structure & Pattern Index
 
 ```text
-├── README.md                                     # Philosophy, context, and master index
-├── CONTRIBUTING.md                               # Pattern RFC template & submission guide
+├── README.md                                        # Philosophy, context, and master index
+├── CONTRIBUTING.md                                  # Pattern RFC template & submission guide
 └── docs/
-    ├── taxonomy.md                               # The 5 axes of agentic development
+    ├── taxonomy.md                                  # The 5 axes of agentic development
+    ├── research-and-benchmarks.md                   # Empirical studies (EvoClaw, Co-Coder, RACE-bench)
     ├── patterns/
     │   ├── solo-developer/
-    │   │   ├── vibe-coding.md                    # High-velocity conversational REPL loops
-    │   │   └── self-healing-repl.md              # Automated compiler/runtime feedback loops
+    │   │   ├── vibe-coding.md                       # High-velocity conversational REPL loops
+    │   │   └── self-healing-repl.md                 # Automated compiler/runtime feedback loops
     │   ├── multi-agent-orchestration/
-    │   │   ├── issue-driven-mesh.md              # Git-tracked task DAGs (The "Beads" pattern)
-    │   │   ├── hierarchical-supervisor.md        # Mayor / Worker / Witness swarms ("Gas Town")
-    │   │   └── adversarial-critic-loop.md        # Dual-agent generator + verifier gates
+    │   │   ├── issue-driven-mesh.md                 # Git-tracked task DAGs (The "Beads" pattern)
+    │   │   ├── hierarchical-supervisor.md           # Mayor / Worker / Witness swarms ("Gas Town")
+    │   │   └── adversarial-critic-loop.md           # Dual-agent generator + verifier gates
     │   ├── team-and-enterprise/
-    │   │   ├── spec-driven-development.md        # Contract-first execution & immutable specs
-    │   │   ├── knowledge-graph-grounding.md      # AST / call-graph indexing for massive repos
-    │   │   └── human-in-the-loop-review.md       # Triage gates & provenance-backed PRs
+    │   │   ├── spec-driven-development.md           # Tiered SDD (Spec-First, Spec-Anchored, Spec-as-Source)
+    │   │   ├── knowledge-graph-grounding.md         # AST / call-graph indexing for massive repos
+    │   │   └── human-in-the-loop-review.md          # Triage gates & provenance-backed PRs
     │   └── reliability-and-state/
-    │       ├── ephemeral-worktree-isolation.md   # Preventing write collisions in parallel runs
-    │       └── context-compaction-checkpoints.md # Surviving long-horizon tasks without amnesia
-    └── catalog/                                  # Implementations & case studies
+    │       ├── operational-policy-files.md          # Command-first AGENTS.md & constitution.md laws
+    │       ├── ephemeral-worktree-isolation.md      # Preventing write collisions in parallel runs
+    │       └── verification-and-proof-harnesses.md  # F2P/P2P gates & formal verification kernels
+    └── catalog/                                     # Implementations & case studies
         ├── gastown-and-beads.md
         ├── devin-and-swe-agent.md
         ├── blitzy-and-factory.md
@@ -97,11 +105,12 @@ We have decoupled **Patterns** (timeless or structural workflows, state machines
 
 | Pattern | Topology | Autonomy | Best Suited For | Core Mechanism |
 | :--- | :--- | :--- | :--- | :--- |
-| **[Vibe Coding](docs/patterns/solo-developer/vibe-coding.md)** | $1:1$ Sync | $L_1$ | UI prototypes, greenfield exploration, throwaway spikes | Tight human-in-the-loop visual/REPL steering |
-| **[Spec-Driven Development (SDD)](docs/patterns/team-and-enterprise/spec-driven-development.md)** | $1:1$ or $1:N$ | $L_2$ | Production features, strict APIs, complex business logic | Immutable `spec.md` + read-only test suites gating execution |
-| **[Issue-Driven Agent Mesh](docs/patterns/multi-agent-orchestration/issue-driven-mesh.md)** | $1:N$ Swarm | $L_3$ | Multi-step features, backlog burning, parallel execution | Git-backed atomic task graphs (`.beads`) + short-lived workers |
-| **[Hierarchical Supervisor](docs/patterns/multi-agent-orchestration/hierarchical-supervisor.md)** | $1:N$ Swarm | $L_3$ | High-throughput solo/small-team multipliers | Dispatcher ("Mayor") assigning worktrees to Workers & Critics |
-| **[Knowledge-Graph Grounding](docs/patterns/team-and-enterprise/knowledge-graph-grounding.md)** | $M:N$ Mesh | $L_3 - L_4$ | Legacy modernization, 1M+ LOC enterprise monorepos | Deep AST/dependency graph ingestion + asynchronous batching |
+| [**Operational Policy Files**](docs/patterns/reliability-and-state/operational-policy-files.md) | All ($1:1 \rightarrow M:N$) | $L_1 - L_4$ | Every agent-enabled repository | Command-first `AGENTS.md`, `constitution.md` invariants, ambiguity escalation gates |
+| [**Vibe Coding**](docs/patterns/solo-developer/vibe-coding.md) | $1:1$ Sync | $L_1$ | UI prototypes, greenfield exploration, throwaway spikes | Tight human-in-the-loop visual/REPL steering |
+| [**Spec-Driven Development (SDD)**](docs/patterns/team-and-enterprise/spec-driven-development.md) | $1:1$ or $1:N$ | $L_2 - L_3$ | Production features, strict APIs, complex business logic | Right-sized triage + immutable `spec.md` + Localization Plan + F2P/P2P test suites |
+| [**Issue-Driven Agent Mesh**](docs/patterns/multi-agent-orchestration/issue-driven-mesh.md) | $1:N$ Swarm | $L_3$ | Multi-step features, backlog burning, parallel execution | Cohesion-partitioned git task graphs (`.beads`) + short-lived isolated workers |
+| [**Hierarchical Supervisor**](docs/patterns/multi-agent-orchestration/hierarchical-supervisor.md) | $1:N$ Swarm | $L_3$ | High-throughput solo/small-team multipliers | Dispatcher ("Mayor") assigning worktrees to Workers & Witness Critics |
+| [**Knowledge-Graph Grounding**](docs/patterns/team-and-enterprise/knowledge-graph-grounding.md) | $M:N$ Mesh | $L_3 - L_4$ | Legacy modernization, $1\text{M+}$ LOC enterprise monorepos | Deep AST/dependency graph ingestion + asynchronous batching |
 
 ---
 
@@ -117,12 +126,12 @@ In six months, parts of this repository will look like historical artifacts, whi
 
 ## 7. Looking Ahead: Where Is This Going?
 
-If we extrapolate from the patterns emerging today, several long-term trajectories become visible:
+If we extrapolate from the patterns and research emerging today, several long-term trajectories become visible:
 
-1. **Specifications Become the Primary Source Code:** Just as high-level languages abstracted away assembly, structured specifications, behavioral invariants, and formal verification harnesses are beginning to abstract away implementation syntax. Code is increasingly treated as a compiled, regenerable artifact of the spec.
-2. **Codebases Optimized for Machine Legibility:** We will begin architecting repositories not for how easily a human can browse them in an IDE, but for how deterministically an agent swarm can parse, isolate, test, and mutate them—favoring strict static typing, hermetic sub-packages, instant local test execution, and explicit dependency graphs.
-3. **Continuous Background Maintenance (Self-Healing Repos):** Rather than batching dependency upgrades, dead-code removal, or performance optimizations into quarterly human sprints, background custodian agents ($L_4$) will continuously propose, verify, and land micro-improvements while humans focus on product topology and domain modeling.
-4. **The Rise of the "Fleet Architect":** The core skill of the senior software engineer is shifting from *writing syntax* to *designing the factory*—crafting the system prompts, verification harnesses, DAG decomposes, and critic gates that allow a fleet of agents to build reliably.
+1. **Specifications & Formal Harnesses Become the Primary Source Code:** Just as high-level languages abstracted away assembly, structured specifications (`Spec-as-Source`), behavioral invariants, and formal verification harnesses (`Aria`, `MAGS`) are beginning to abstract away implementation syntax. Application code is increasingly treated as a compiled, regenerable artifact.
+2. **Codebases Optimized for Machine Legibility & Low Coupling:** Because multi-agent parallelism breaks down on tightly coupled "hub" files (`Co-Coder`), we will architect repositories specifically for how deterministically an agent swarm can partition, isolate, and verify them—favoring strict static typing, hermetic sub-packages, instant scoped test execution, and explicit dependency graphs.
+3. **Continuous Background Maintenance (Self-Healing Repos):** Rather than batching dependency upgrades, dead-code removal, or performance optimizations into quarterly human sprints, background custodian agents ($L_4$) governed by strict Pass-to-Pass (P2P) invariant gates will continuously land micro-improvements while humans focus on domain modeling.
+4. **From Syntax Writers to Fleet Architects:** The core identity of the software engineer is shifting toward three higher-leverage roles: **Intent Architect** (defining specifications and constitutional boundaries), **Agent Coordinator** (designing task graphs and swarm topologies), and **Outcome Auditor** (verifying systemic invariants and business impact).
 
 ---
 
@@ -132,6 +141,6 @@ Because no single person or team has all the answers, this repository relies on 
 
 * Have you discovered a failure mode in one of our documented patterns?
 * Are you running a multi-agent workflow or enterprise guardrail that isn't captured here?
-* Has a new model release rendered one of these patterns obsolete?
+* Has a new model release or benchmark rendered one of these patterns obsolete?
 
-Please open an issue or submit a Pull Request. See [CONTRIBUTING.md](CONTRIBUTING.md) for our pattern template and architectural guidelines.
+Please open an issue or submit a Pull Request. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for our pattern template and architectural guidelines.
