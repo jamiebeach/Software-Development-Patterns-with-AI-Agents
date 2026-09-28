@@ -95,10 +95,12 @@ We have decoupled **Patterns** (structural workflows, state machines, and mental
     │       ├── ephemeral-worktree-isolation.md      # Preventing write collisions in parallel runs
     │       └── verification-and-proof-harnesses.md  # F2P/P2P gates & formal verification kernels
     └── catalog/                                     # Implementations & case studies
-        ├── gastown-and-beads.md
-        ├── devin-and-swe-agent.md
-        ├── blitzy-and-factory.md
-        └── claude-code-and-aider.md
+        ├── swarm-frameworks.md                      # Gas Town, Beadwork, MetaGPT
+        ├── autonomous-swe.md                        # Devin, SWE-agent, OpenHands
+        ├── enterprise-platforms.md                  # Blitzy, Factory, Tessl
+        ├── terminal-agents.md                       # Aider, Claude Code, Plandex
+        ├── ide-agents.md                            # Cursor, Windsurf, Copilot
+        └── review-and-infra.md                      # Greptile, CodeRabbit, E2B
 ```
 
 ### Quick Pattern Matrix
